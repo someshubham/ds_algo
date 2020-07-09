@@ -24,20 +24,25 @@ Then we have to ways to access 'a'
 */
 
 // Create a node structure with value and a pointer to the next structure
-struct node
+
+// Edit (July 9) : Changed struct to class
+template <typename T>
+class Node
 {
-    struct node *link;
-    int value;
+public:
+    Node *link;
+    T value;
 };
 
 // Rename the struct node as node
-typedef struct node node;
+//typedef struct Node Node;
 
 // Class for the linkedList contains all the function implementations
+template <typename T>
 class LinkedList
 {
 private:
-    node *head;
+    Node<T> *head;
 
 public:
     LinkedList()
@@ -45,19 +50,19 @@ public:
         head = NULL;
     }
 
-    void insertAtStart(int value)
+    void insertAtStart(T value)
     {
         // This is the old C way of dynamic memory allocation
-        node *newNode = (node *)malloc(sizeof(node));
+        Node<T> *newNode = (Node<T> *)malloc(sizeof(Node<T>));
         newNode->value = value;
         newNode->link = head;
         head = newNode;
     }
 
-    int deleteAtStart()
+    T deleteAtStart()
     {
-        node *t = head;
-        int value = t->value;
+        Node<T> *t = head;
+        T value = t->value;
         head = head->link;
         // Free Up the Space when not in use
         // Old C way for freeing up space
@@ -65,12 +70,12 @@ public:
         return value;
     }
 
-    void insertAtEnd(int value)
+    void insertAtEnd(T value)
     {
         // This is the new way of C++ for dynamic memory allocation
-        node *newNode = new node;
+        Node<T> *newNode = new Node<T>;
         newNode->value = value;
-        node *t = head;
+        Node<T> *t = head;
         while (t->link)
         {
             t = t->link;
@@ -79,15 +84,15 @@ public:
         newNode->link = NULL;
     }
 
-    int deleteAtEnd()
+    T deleteAtEnd()
     {
-        node *t = head;
+        Node<T> *t = head;
         while (t->link->link)
         {
             t = t->link;
         }
-        node *t2 = t->link;
-        int value = t2->value;
+        Node<T> *t2 = t->link;
+        T value = t2->value;
         t->link = NULL;
         // Free Up the Space when not in use
         // New C++ way for freeing up space
@@ -97,7 +102,7 @@ public:
 
     void printList()
     {
-        node *t = head;
+        Node<T> *t = head;
         // Traverse to the end of the list while the pointer is not null
         while (t)
         {
@@ -110,11 +115,11 @@ public:
 
 int main()
 {
-    LinkedList list;
+    LinkedList<int> list;
 
     list.insertAtStart(10);
     list.insertAtStart(20);
-    list.insertAtStart(50);
+    list.insertAtStart(60);
     list.insertAtEnd(30);
     list.printList();
     cout << "Deleted At the End :" << list.deleteAtEnd() << endl;
