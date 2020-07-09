@@ -4,36 +4,36 @@ Linked List Implementation in Dart
 Same logic as C++
  */
 
-class Node {
-  int value;
+class Node<T> {
+  T value;
   Node next;
   Node({this.value});
 }
 
-class LinkedList {
-  Node head;
-
+class LinkedList<T> {
+  Node<T> head;
+  List x;
   LinkedList() {
     head = null;
   }
 
-  void insertAtStart(int value) {
-    Node newNode = Node(value: value);
+  void insertAtStart(T value) {
+    Node newNode = Node<T>(value: value);
 
     newNode.next = head;
     head = newNode;
   }
 
-  Node deleteAtStart() {
-    Node temp = head;
+  T deleteAtStart() {
+    Node<T> temp = head;
     head = head.next;
 
-    return temp;
+    return temp.value;
   }
 
-  void insertAtEnd(int value) {
-    Node newNode = Node(value: value);
-    Node temp = head;
+  void insertAtEnd(T value) {
+    Node<T> newNode = Node<T>(value: value);
+    Node<T> temp = head;
     while (temp.next != null) {
       temp = temp.next;
     }
@@ -42,18 +42,18 @@ class LinkedList {
     newNode.next = null;
   }
 
-  Node deleteAtEnd() {
-    Node temp = head;
+  T deleteAtEnd() {
+    Node<T> temp = head;
     while (temp.next.next != null) {
       temp = temp.next;
     }
-    Node temp2 = temp.next;
+    Node<T> temp2 = temp.next;
     temp.next = null;
-    return temp2;
+    return temp2.value;
   }
 
   void printList() {
-    Node temp = head;
+    Node<T> temp = head;
     while (temp != null) {
       print('${temp.value}');
       temp = temp.next;
@@ -63,14 +63,14 @@ class LinkedList {
 
 // Dart
 void main() {
-  LinkedList list = LinkedList();
+  LinkedList list = LinkedList<int>();
 
   list.insertAtStart(10);
   list.insertAtStart(20);
   list.insertAtEnd(30);
   list.printList();
 
-  Node deletedNode = list.deleteAtEnd();
-  print('Deleted Value :${deletedNode.value}');
+  int deletedValue = list.deleteAtEnd();
+  print('Deleted Value :$deletedValue');
   list.printList();
 }
