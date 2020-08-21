@@ -74,6 +74,60 @@ int update_ith_bit(int &n, int i, int v)
     return (n | (v << i));
 }
 
+int clear_to_ith_bit(int n, int i)
+{
+    // Need Mask of form -> 111000
+    // ~0 -> ~(0000) = 1111111
+    // Left Shift this till i mask << i
+    return (n & (-1 << i));
+}
+
+int clear_range_bit(int n, int i, int j)
+{
+    return (n & ((-1 << j + 1) | (~(-1 << i + 1))));
+}
+
+int replace_bits_number(int n, int m, int i, int j)
+{
+    int n_ = clear_range_bit(n, i, j);
+    return (n | (m << i));
+}
+
+// O(logN)
+int count_set_bits(int n)
+{
+    if (n && !(n & (n - 1)))
+        return 1;
+    int c = 0;
+    while (n > 0)
+    {
+        c += (n & 1);
+        n >>= 1;
+    }
+    return c;
+}
+
+// O(no of set bits)
+int count_set_bits_fast(int n)
+{
+    // n & (n-1) -> this line removes the set bits from left to right
+    // This line was also used to check whether the number is power of two
+    // Example
+    //  111 -> 7
+    // &110 -> 6
+    //  110 -> This removed the first bit from 7 left to right
+    // &101 -> 5
+    //  100 -> Removed the first bit from 6
+    int a = 0;
+    while (n > 0)
+    {
+        n &= (n - 1);
+        a++;
+    }
+
+    return a;
+}
+
 int main()
 {
     // 1. Unique Number Input
@@ -83,7 +137,13 @@ int main()
     //Common Bit Opn
     is_odd();
     int no = 5;
-    int n = update_ith_bit(no, 3, 1);
-    cout << n;
+    int n = clear_range_bit(no, 1, 2);
+    cout << n << endl;
+    cout << count_set_bits(16) << endl;
+    cout << count_set_bits_fast(16) << endl;
+
+    // This is the built in fn for set bit count
+    cout << __builtin_popcount(16) << endl;
+
     return 0;
 }
